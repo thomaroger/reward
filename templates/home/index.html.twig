@@ -4,8 +4,8 @@
 
 {% if selectedchild is null or selectedchild is empty  %}
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-   <h4 class="alert-heading">Child not selected</h4>
-   <p>You must choose a child in the menu</p>
+   <h4 class="alert-heading">Enfant non selectionné</h4>
+   <p>Vous devez choisir un enfant dans le menu</p>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% else %}
@@ -17,7 +17,7 @@
 
 
 <ul class="list-group" id="task-list-bonus">
-    <li class="list-group-item list-group-item-success"><b>Bonus Task</b></li>
+    <li class="list-group-item list-group-item-success"><b>Taches Bonus</b></li>
     {% for task in tasksBonus %}
     <li class="list-group-item list-group-item-success tasks">
         <div class="container text-center">
@@ -38,7 +38,7 @@
 </ul>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-penalty">
-    <li class="list-group-item list-group-item-danger"><b>Malus Task</b></li>
+    <li class="list-group-item list-group-item-danger"><b>Taches Malus</b></li>
     {% for task in tasksPenalties %}
     <li class="list-group-item list-group-item-danger tasks">
         <div class="container text-center">
@@ -59,7 +59,7 @@
 </ul>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-consumption">
-    <li class="list-group-item list-group-item-warning"><b>Consumption Task</b></li>
+    <li class="list-group-item list-group-item-warning"><b>Taches de consommation</b></li>
     {% for task in tasksConsumptions %}
       {% if selectedchild.points >= (task.points*-1) %}
       <li class="list-group-item list-group-item-warning tasks">
