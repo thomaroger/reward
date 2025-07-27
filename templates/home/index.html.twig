@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% if selectedchild is null or selectedchild is empty  %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+   <h4 class="alert-heading">Child not selected</h4>
+   <p>You must choose a child in the menu</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="clearfix">&nbsp;</div>
+<form class="d-flex" role="search">
+      <input class="form-control me-2" id="task-filter" type="search" placeholder="Search" aria-label="Search"/>
+</form>
+<div class="clearfix">&nbsp;</div>
+
+
+<ul class="list-group" id="task-list-bonus">
+    <li class="list-group-item list-group-item-success"><b>Bonus Task</b></li>
+    {% for task in tasksBonus %}
+    <li class="list-group-item list-group-item-success tasks">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col text-start task-name">
+             {{task}}
+            </div>
+            <div class="col text-end">
+              <form action="{{ path('app_home_task') }}" method="POST">
+              <input type="hidden" value="{{task.id}}" name="task" />
+              <button type="submit" class="btn btn-success">Valider</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="clearfix">&nbsp;</div>
+<ul class="list-group" id="task-list-penalty">
+    <li class="list-group-item list-group-item-danger"><b>Malus Task</b></li>
+    {% for task in tasksPenalties %}
+    <li class="list-group-item list-group-item-danger tasks">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col text-start task-name">
+             {{task}}
+            </div>
+            <div class="col text-end">
+              <form action="{{ path('app_home_task') }}" method="POST">
+              <input type="hidden" value="{{task.id}}" name="task" />
+              <button type="submit" class="btn btn-danger">Valider</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="clearfix">&nbsp;</div>
+<ul class="list-group" id="task-list-consumption">
+    <li class="list-group-item list-group-item-warning"><b>Consumption Task</b></li>
+    {% for task in tasksConsumptions %}
+      {% if selectedchild.points >= (task.points*-1) %}
+      <li class="list-group-item list-group-item-warning tasks">
+          <div class="container text-center">
+            <div class="row">
+              <div class="col text-start task-name">
+               {{task}}
+              </div>
+              <div class="col text-end">
+                <form action="{{ path('app_home_task') }}" method="POST">
+                <input type="hidden" value="{{task.id}}" name="task" />
+                <button type="submit" class="btn btn-warning">Valider</button>
+                </form>
+              </div>
+            </div>
+          </div>
+      </li>
+      {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
+
+<script>
+  const filterInput = document.getElementById('task-filter');
+
+  const taskListBonus = document.getElementById('task-list-bonus');
+  const itemsBonus = taskListBonus.querySelectorAll('li.tasks');
+  
+  const taskListPenalty = document.getElementById('task-list-penalty');
+  const itemsPenalty = taskListPenalty.querySelectorAll('li.tasks');
+
+  const taskListConsumption = document.getElementById('task-list-consumption');
+  const itemsConsumption = taskListConsumption.querySelectorAll('li.tasks');
+
+  filterInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    itemsBonus.forEach(item => {
+      const name = item.querySelector('.task-name').textContent.toLowerCase();
+      item.style.display = name.includes(filter) ? '' : 'none';
+    });
+  });
+
+  filterInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    itemsPenalty.forEach(item => {
+      const name = item.querySelector('.task-name').textContent.toLowerCase();
+      item.style.display = name.includes(filter) ? '' : 'none';
+    });
+  });
+
+  filterInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    itemsConsumption.forEach(item => {
+      const name = item.querySelector('.task-name').textContent.toLowerCase();
+      item.style.display = name.includes(filter) ? '' : 'none';
+    });
+  });
+</script>
+{% endblock %}
+
+
+
