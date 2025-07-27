@@ -124,8 +124,8 @@ class Task
 
     public function __toString() {
         if ($this->getpoints() == 1) {
-            return $this->getName().' ('.$this->getPoints().' pt)';
+            return $this->getName().' ('.$this->getPoints().' point)';
         }
-        return $this->getName().' ('.$this->getPoints().' pts)';
+        return $this->getName().' ('.$this->getPoints().' points)';
     }
 }
