@@ -62,7 +62,7 @@ final class HomeController extends AbstractController
         $historic = new Historic();
         $historic->setChild($child);
         $historic->setTask($task);
-        $historic->setCreatedAt(new \DateTimeImmutable('now'));
+        $historic->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         $entityManager->persist($historic);
 
         $child->setPoints($child->getPoints() + $task->getPoints());
