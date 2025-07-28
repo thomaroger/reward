@@ -84,7 +84,10 @@ final class HomeController extends AbstractController
 
         if(!empty($request->cookies->get('child'))) {
             $selectedchild = $entityManager->getRepository(Child::class)->find($request->cookies->get('child'));
-            $historics = $entityManager->getRepository(Historic::class)->findby(array('child'=>$selectedchild), array('created_at' => 'desc'));
+            $allHistorics = $entityManager->getRepository(Historic::class)->findby(array('child'=>$selectedchild), array('created_at' => 'desc'));
+            foreach ($allHistorics as $historic) {
+                $historics[$historic->getCreatedAt()->format('d/m/Y')][] = $historic;
+            }
         }
         
         return $this->render('home/historic.html.twig', [
