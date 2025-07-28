@@ -20,6 +20,8 @@ final class HomeController extends AbstractController
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
         $selectedchild = null;
+        $taskalreadydone = null;
+        $currentDate = new \DateTimeImmutable('now');
         $children = $entityManager->getRepository(Child::class)->findAll();
         $tasksBonus = $entityManager->getRepository(Task::class)->findBy(array('type'=> TypeEnum::BONUS));
         $tasksPenalties = $entityManager->getRepository(Task::class)->findBy(array('type'=> TypeEnum::PENALTY));
@@ -27,7 +29,13 @@ final class HomeController extends AbstractController
 
         if(!empty($request->cookies->get('child'))) {
             $selectedchild = $entityManager->getRepository(Child::class)->find($request->cookies->get('child'));
+            $tasks = $entityManager->getRepository(Historic::class)->findByDay($selectedchild, $currentDate);
+            foreach($tasks as $task) {
+                $taskalreadydone[$task['id']] = $task['id'];
+            }
         }
+
+
 
         return $this->render('home/index.html.twig', [
             'children' => $children,
@@ -36,6 +44,7 @@ final class HomeController extends AbstractController
             'tasksConsumptions' => $tasksConsumptions,
             'types' => TypeEnum::get(),
             'selectedchild'=> $selectedchild,
+            'taskalreadydone' => $taskalreadydone,
         ]);
     }
 

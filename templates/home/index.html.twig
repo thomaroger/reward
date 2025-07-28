@@ -19,7 +19,13 @@
 <ul class="list-group" id="task-list-bonus">
     <li class="list-group-item list-group-item-success"><b>Taches Bonus</b></li>
     {% for task in tasksBonus %}
-    <li class="list-group-item list-group-item-success tasks">
+    {% set item_style = 'list-group-item-success' %}
+    {% set btn_style = 'btn-success' %}
+    {% if  taskalreadydone[task.id] is defined and task.frequency == 0 %}
+    {% set item_style = 'list-group-item-light' %}
+    {% set btn_style = 'btn-light' %}
+    {% endif %}
+    <li class="list-group-item {{item_style}} tasks">
         <div class="container text-center">
           <div class="row">
             <div class="col text-start task-name">
@@ -28,7 +34,7 @@
             <div class="col text-end">
               <form action="{{ path('app_home_task') }}" method="POST">
               <input type="hidden" value="{{task.id}}" name="task" />
-              <button type="submit" class="btn btn-success">Valider</button>
+              <button type="submit" class="btn {{ btn_style }}">Valider</button>
               </form>
             </div>
           </div>
