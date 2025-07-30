@@ -52,7 +52,8 @@ class HistoricCrudController extends AbstractCrudController
      public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(EntityFilter::new('child'));
+            ->add(EntityFilter::new('child'))
+            ->add(EntityFilter::new('task'));
     }
 
 
