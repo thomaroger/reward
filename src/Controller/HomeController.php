@@ -21,7 +21,7 @@ final class HomeController extends AbstractController
     {
         $selectedchild = null;
         $taskalreadydone = null;
-        $currentDate = new \DateTimeImmutable('now');
+        $currentDate = new \DateTimeImmutable('now',  new \DateTimeZone('Europe/Paris'));
         $children = $entityManager->getRepository(Child::class)->findAll();
         $tasksBonus = $entityManager->getRepository(Task::class)->findBy(array('type'=> TypeEnum::BONUS));
         $tasksPenalties = $entityManager->getRepository(Task::class)->findBy(array('type'=> TypeEnum::PENALTY));
