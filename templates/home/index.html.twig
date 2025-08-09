@@ -6,7 +6,7 @@
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
    <h4 class="alert-heading">Enfant non selectionné</h4>
    <p>Vous devez choisir un enfant dans le menu</p>
-   <ul class="list-group list-group-horizontal mx-auto" style="width: 300px;">
+   <ul class="list-group list-group-horizontal mx-auto" style="width: 350px;">
         {% for child in children %}
         <li class="list-group-item list-group-item-danger list-group-item-action">
           <a class="nav-link" aria-current="page" href="{{ path('app_home_child', {id: child.id}) }}">{{child}} ({{ child.points }})</a>
