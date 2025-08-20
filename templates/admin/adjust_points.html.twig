@@ -1,0 +1,40 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Ajustement de points{% endblock %}
+
+{% block main %}
+  <div class="container py-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('adjust_points') }}" />
+
+          <div class="mb-3">
+            <label for="child" class="form-label">Enfant</label>
+            <select id="child" name="child" class="form-select" required>
+              <option value="" disabled selected>Choisir un enfant</option>
+              {% for child in children %}
+                <option value="{{ child.id }}">{{ child }} ({{ child.points }})</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="points" class="form-label">Points (positif ou négatif)</label>
+            <input type="number" class="form-control" id="points" name="points" required placeholder="Ex: 10 ou -5">
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" name="description" rows="3" placeholder="Motif de l'ajustement"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Appliquer</button>
+          <a href="{{ path('admin') }}" class="btn btn-secondary">Annuler</a>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
