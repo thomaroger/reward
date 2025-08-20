@@ -35,7 +35,11 @@
                  {{historic.task}}
                 </div>
                 <div class="col text-end">
-                 {{ historic.createdat|date("d/m/Y H:i:s") }}
+                 <span class="badge rounded-pill {% if historic.task.type == 0 %}text-bg-success{% elseif historic.task.type == 1 %}text-bg-danger{% else %}text-bg-warning{% endif %}">
+                   {% if historic.task.points > 0 %}+{{ historic.task.points }}{% else %}{{ historic.task.points }}{% endif %}
+                 </span>
+                 &nbsp;
+                 {{ historic.createdAt|date("d/m/Y H:i:s") }}
                 </div>
               </div>
             </div>

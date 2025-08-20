@@ -1,0 +1,89 @@
+/* Styles généraux */
+body {
+  font-size: 22px;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-text-size-adjust: 100%;
+}
+
+.nav-pills .back {
+  background-color: #ffc107;
+  color: black;
+}
+
+/* Accessibilité: animations réduites */
+@media (prefers-reduced-motion: reduce) {
+  .toast, .fade { 
+    transition: none !important; 
+  }
+}
+
+/* Optimisations mobiles */
+@media (max-width: 576px) {
+  body { 
+    font-size: 18px; 
+  }
+  
+  .container { 
+    padding-left: 1rem; 
+    padding-right: 1rem; 
+  }
+  
+  .navbar .nav-item.d-flex { 
+    width: 100%; 
+  }
+  
+  .navbar .form-select { 
+    min-width: 0; 
+    width: 100%; 
+  }
+  
+  .tasks .btn { 
+    width: 100%; 
+    margin-top: .5rem; 
+  }
+  
+  .tasks .task-name { 
+    text-align: left; 
+  }
+  
+  .toast-container { 
+    left: 50%; 
+    right: auto; 
+    transform: translateX(-50%); 
+    width: min(92vw, 420px); 
+  }
+  
+  .toast { 
+    width: 100%; 
+  }
+  
+  #task-filter { 
+    font-size: 16px; 
+  }
+}
+
+/* Styles pour les tâches */
+.tasks .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animation pour les toasts */
+.toast {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive pour les listes de tâches */
+@media (max-width: 768px) {
+  .tasks .container .row {
+    flex-direction: column;
+  }
+  
+  .tasks .col {
+    margin-bottom: 0.5rem;
+  }
+  
+  .tasks .btn {
+    width: 100%;
+  }
+}
