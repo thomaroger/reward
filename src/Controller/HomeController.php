@@ -163,6 +163,7 @@ final class HomeController extends AbstractController
             $selectedChild = $this->getSelectedChild($request);
             $children = $this->entityManager->getRepository(Child::class)->findAll();
             $historics = [];
+            $pagination = [];
 
             if ($selectedChild) {
                 $allHistorics = $this->entityManager->getRepository(Historic::class)
@@ -171,12 +172,40 @@ final class HomeController extends AbstractController
                 foreach ($allHistorics as $historic) {
                     $historics[$historic->getCreatedAt()->format('d/m/Y')][] = $historic;
                 }
+
+                // Pagination simple par date
+                if (!empty($historics)) {
+                    $dates = array_keys($historics);
+                    $currentPage = max(1, (int) $request->query->get('page', 1));
+                    $totalDates = count($dates);
+                    $totalPages = $totalDates;
+                    $currentPage = min($currentPage, $totalPages);
+
+                    $dateIndex = $currentPage - 1;
+                    if (isset($dates[$dateIndex])) {
+                        $currentDate = $dates[$dateIndex];
+                        $historics = [$currentDate => $historics[$currentDate]];
+                    }
+
+                    $pagination = [
+                        'currentPage' => $currentPage,
+                        'totalPages' => $totalPages,
+                        'totalDates' => $totalDates,
+                        'hasPrevious' => $currentPage > 1,
+                        'hasNext' => $currentPage < $totalPages,
+                        'previousPage' => $currentPage - 1,
+                        'nextPage' => $currentPage + 1,
+                        'currentDate' => $currentDate ?? null,
+                        'allDates' => $dates,
+                    ];
+                }
             }
             
             return $this->render('home/historic.html.twig', [
                 'children' => $children,
                 'historics' => $historics,
                 'selectedchild' => $selectedChild,
+                'pagination' => $pagination,
             ]);
         } catch (\Exception $e) {
             error_log('Erreur lors du chargement de l\'historique: ' . $e->getMessage());

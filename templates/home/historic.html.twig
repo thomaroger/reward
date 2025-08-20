@@ -56,7 +56,7 @@
                  {% endif %}
 
                  <span class="badge rounded-pill text-bg-{{ badge }}">{% if pts > 0 %}+{{ pts }}{% else %}{{ pts }}{% endif %}</span>
-                 &nbsp; {{ historic.createdAt|date("d/m/Y H:i:s") }}
+                 &nbsp; {{ historic.createdAt|date("d/m/Y H:i:s", "Europe/Paris") }}
                 </div>
               </div>
             </div>
@@ -66,5 +66,93 @@
   <div class='clearfix'>&nbsp;</div>
 {% endfor %}
 
+{% endif %}
+
+{# Sélecteur de date et pagination #}
+{% if pagination is defined and pagination.totalPages > 1 %}
+  <div class="mt-4">
+    {# Sélecteur de date rapide #}
+    <div class="d-flex justify-content-center mb-3">
+      <div class="input-group" style="max-width: 300px;">
+        <span class="input-group-text">
+          <i class="fa fa-calendar"></i>
+        </span>
+        <input type="date" id="date-picker" class="form-control" 
+               value="{{ pagination.currentDate is defined ? pagination.currentDate : '' }}"
+               onchange="goToDate(this.value)">
+      </div>
+    </div>
+
+    {# Pagination élégante #}
+    <div class="d-flex justify-content-center">
+      <nav aria-label="Navigation de l'historique">
+        <ul class="pagination pagination-sm">
+          {# Bouton Précédent #}
+          {% if pagination.hasPrevious %}
+            <li class="page-item">
+              <a class="page-link" href="{{ path('app_home_historic', {page: pagination.previousPage}) }}" aria-label="Date précédente">
+                <i class="fa fa-chevron-left"></i>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">
+                <i class="fa fa-chevron-left"></i>
+              </span>
+            </li>
+          {% endif %}
+
+          {# Date actuelle #}
+          <li class="page-item ">
+            <span class="page-link fw-bold">
+              {{ pagination.currentDate }}
+            </span>
+          </li>
+
+          {# Bouton Suivant #}
+          {% if pagination.hasNext %}
+            <li class="page-item">
+              <a class="page-link" href="{{ path('app_home_historic', {page: pagination.nextPage}) }}" aria-label="Date suivante">
+                <i class="fa fa-chevron-right"></i>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">
+                <i class="fa fa-chevron-right"></i>
+              </span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+
+    {# Indicateur de position #}
+    <div class="text-center mt-2">
+      <small class="text-muted">
+        {{ pagination.currentPage }} sur {{ pagination.totalPages }} dates
+      </small>
+    </div>
+  </div>
+
+  <script>
+    function goToDate(dateString) {
+      if (dateString) {
+        const date = new Date(dateString);
+        const formattedDate = date.toLocaleDateString('fr-FR');
+        
+        // Trouver l'index de la date dans la liste des dates disponibles
+        const dates = {{ pagination.allDates|json_encode|raw }};
+        const dateIndex = dates.indexOf(formattedDate);
+        
+        if (dateIndex !== -1) {
+          const page = Math.floor(dateIndex / 1) + 1; // 1 date par page
+          window.location.href = '{{ path('app_home_historic') }}?page=' + page;
+        } else {
+          alert('Aucun historique disponible pour cette date');
+        }
+      }
+    }
+  </script>
 {% endif %}
 {% endblock %}
