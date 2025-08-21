@@ -146,7 +146,7 @@ final class HomeController extends AbstractController
                 $child->getFirstname(),
                 $task->getPoints()
             ));
-
+            
             return $this->redirectToRoute('app_home');
             
         } catch (\Exception $e) {

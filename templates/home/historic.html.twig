@@ -70,16 +70,25 @@
 
 {# Sélecteur de date et pagination #}
 {% if pagination is defined and pagination.totalPages > 1 %}
+  {% set prevIndex = pagination.currentPage - 2 %}
+  {% set nextIndex = pagination.currentPage %}
+  {% set prevLabel = pagination.allDates[prevIndex] is defined ? pagination.allDates[prevIndex] : null %}
+  {% set nextLabel = pagination.allDates[nextIndex] is defined ? pagination.allDates[nextIndex] : null %}
+  {% set parts = pagination.currentDate ? pagination.currentDate|split('/') : [] %}
+  {% set isoCurrent = parts|length == 3 ? parts[2] ~ '-' ~ parts[1] ~ '-' ~ parts[0] : '' %}
   <div class="mt-4">
     {# Sélecteur de date rapide #}
     <div class="d-flex justify-content-center mb-3">
-      <div class="input-group" style="max-width: 300px;">
+      <div class="input-group" style="max-width: 320px;">
         <span class="input-group-text">
           <i class="fa fa-calendar"></i>
         </span>
         <input type="date" id="date-picker" class="form-control" 
-               value="{{ pagination.currentDate is defined ? pagination.currentDate : '' }}"
+               value="{{ isoCurrent }}"
                onchange="goToDate(this.value)">
+        <button class="btn btn-outline-secondary" type="button" onclick="goToDate(document.getElementById('date-picker').value)">
+          Aller
+        </button>
       </div>
     </div>
 
@@ -87,18 +96,17 @@
     <div class="d-flex justify-content-center">
       <nav aria-label="Navigation de l'historique">
         <ul class="pagination pagination-sm">
-          {# Bouton Précédent #}
+          {# Bouton Précédent (chevron + date) #}
           {% if pagination.hasPrevious %}
             <li class="page-item">
-              <a class="page-link" href="{{ path('app_home_historic', {page: pagination.previousPage}) }}" aria-label="Date précédente">
+              <a class="page-link d-flex align-items-center gap-1" href="{{ path('app_home_historic', {page: pagination.previousPage}) }}" aria-label="{{ prevLabel ?? 'Date précédente' }}">
                 <i class="fa fa-chevron-left"></i>
+                <span>{{ prevLabel }}</span>
               </a>
             </li>
           {% else %}
             <li class="page-item disabled">
-              <span class="page-link">
-                <i class="fa fa-chevron-left"></i>
-              </span>
+              <span class="page-link">—</span>
             </li>
           {% endif %}
 
@@ -109,18 +117,17 @@
             </span>
           </li>
 
-          {# Bouton Suivant #}
+          {# Bouton Suivant (date + chevron) #}
           {% if pagination.hasNext %}
             <li class="page-item">
-              <a class="page-link" href="{{ path('app_home_historic', {page: pagination.nextPage}) }}" aria-label="Date suivante">
+              <a class="page-link d-flex align-items-center gap-1" href="{{ path('app_home_historic', {page: pagination.nextPage}) }}" aria-label="{{ nextLabel ?? 'Date suivante' }}">
+                <span>{{ nextLabel }}</span>
                 <i class="fa fa-chevron-right"></i>
               </a>
             </li>
           {% else %}
             <li class="page-item disabled">
-              <span class="page-link">
-                <i class="fa fa-chevron-right"></i>
-              </span>
+              <span class="page-link">—</span>
             </li>
           {% endif %}
         </ul>
