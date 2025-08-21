@@ -16,9 +16,23 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% else %}
+  {% if historics is empty %}
+    <div class="alert alert-info text-center" role="alert">
+      Aucun événement ce jour.
+    </div>
+  {% endif %}
+
   {% for date,histos in historics %}
+    {% set total = 0 %}
+    {% for h in histos %}
+      {% set p = h.task ? h.task.points : (h.points ?? 0) %}
+      {% set total = total + p %}
+    {% endfor %}
     <ul class="list-group"> 
-      <li class="list-group-item">{{date}}</li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{date}}</span>
+        <span class="badge rounded-pill text-bg-secondary">Total: {% if total > 0 %}+{{ total }}{% else %}{{ total }}{% endif %}</span>
+      </li>
       {% for historic in histos %}
         {# Déterminer le style selon la tâche ou l'ajustement manuel #}
         {% set item_style = 'list-group-item-light' %}
@@ -76,7 +90,7 @@
   {% set nextLabel = pagination.allDates[nextIndex] is defined ? pagination.allDates[nextIndex] : null %}
   {% set parts = pagination.currentDate ? pagination.currentDate|split('/') : [] %}
   {% set isoCurrent = parts|length == 3 ? parts[2] ~ '-' ~ parts[1] ~ '-' ~ parts[0] : '' %}
-  <div class="mt-4">
+  <div id="historic-nav" class="mt-4" data-prev-url="{% if pagination.hasPrevious %}{{ path('app_home_historic', {page: pagination.previousPage}) }}{% endif %}" data-next-url="{% if pagination.hasNext %}{{ path('app_home_historic', {page: pagination.nextPage}) }}{% endif %}">
     {# Sélecteur de date rapide #}
     <div class="d-flex justify-content-center mb-3">
       <div class="input-group" style="max-width: 320px;">
@@ -141,6 +155,8 @@
       </small>
     </div>
   </div>
+
+  {# Plus de Flatpickr; datepicker natif uniquement #}
 
   <script>
     function goToDate(dateString) {

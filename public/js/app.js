@@ -94,6 +94,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { passive: false });
   });
 
+  // Raccourcis clavier pour historique (gauche/droite)
+  const nav = document.getElementById('historic-nav');
+  if (nav) {
+    document.addEventListener('keydown', (e) => {
+      const prevUrl = nav.getAttribute('data-prev-url');
+      const nextUrl = nav.getAttribute('data-next-url');
+      if (e.key === 'ArrowLeft' && prevUrl) {
+        window.location.href = prevUrl;
+      } else if (e.key === 'ArrowRight' && nextUrl) {
+        window.location.href = nextUrl;
+      }
+    });
+  }
+
   // Amélioration de l'accessibilité mobile
   if (window.innerWidth <= 576) {
     // Augmenter la taille des zones cliquables sur mobile
