@@ -23,11 +23,12 @@ final class HomeController extends AbstractController
         private readonly EntityManagerInterface $entityManager
     ) {}
 
-    #[Route('/', name: 'app_home')]
-    public function index(Request $request): Response
+    #[Route('/', name: 'app_home',)]
+    #[Route('/tasks/{firstname}', name: 'app_home_tasks', defaults: ['firstname' => null])]
+    public function index(Request $request, string $firstname = null): Response
     {
         try {
-            $selectedChild = $this->getSelectedChild($request);
+            $selectedChild = $this->getSelectedChild($request, $firstname);
             $currentDate = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
             
             $children = $this->entityManager->getRepository(Child::class)->findAll();
@@ -156,11 +157,11 @@ final class HomeController extends AbstractController
         }
     }
 
-    #[Route('/historic', name: 'app_home_historic')]
-    public function historics(Request $request): Response
+    #[Route('/historic/{firstname}', name: 'app_home_historic', defaults: ['firstname' => null], methods: ['GET'])]
+    public function historics(Request $request, string $firstname = null): Response
     {
         try {
-            $selectedChild = $this->getSelectedChild($request);
+            $selectedChild = $this->getSelectedChild($request, $firstname);
             $children = $this->entityManager->getRepository(Child::class)->findAll();
             $historics = [];
             $pagination = [];
@@ -215,8 +216,12 @@ final class HomeController extends AbstractController
     }
 
     // Méthodes privées pour améliorer la lisibilité et la réutilisabilité
-    private function getSelectedChild(Request $request): ?Child
+    private function getSelectedChild(Request $request, string $firstname = null): ?Child
     {
+        if(!empty($firstname)){
+            return $this->entityManager->getRepository(Child::class)->findOneBy(['firstname' => $firstname]);
+        }
+
         $childId = $request->cookies->get('child');
         if (!$childId) {
             return null;
