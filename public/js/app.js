@@ -6,6 +6,24 @@ document.addEventListener('DOMContentLoaded', function () {
     return new bootstrap.Toast(toastEl).show(); 
   });
 
+
+  (function () {
+    const applyTheme = () => {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+    };
+    // Première application
+    applyTheme();
+    // Réagir si l'utilisateur change le thème système
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    if (mq.addEventListener) {
+      mq.addEventListener('change', applyTheme);
+    } else if (mq.addListener) {
+      // Safari anciens
+      mq.addListener(applyTheme);
+    }
+  })();
+
   // Sélecteur enfant avec Select2
   const childSelect = document.getElementById('child-select');
   if (childSelect) {
