@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 final class HomeController extends AbstractController
@@ -29,6 +30,9 @@ final class HomeController extends AbstractController
     {
         try {
             $selectedChild = $this->getSelectedChild($request, $firstname);
+            if($selectedChild instanceof RedirectResponse) {
+                return $selectedChild;
+            }
             $currentDate = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
             
             $children = $this->entityManager->getRepository(Child::class)->findAll();
@@ -216,10 +220,13 @@ final class HomeController extends AbstractController
     }
 
     // Méthodes privées pour améliorer la lisibilité et la réutilisabilité
-    private function getSelectedChild(Request $request, string $firstname = null): ?Child
+    private function getSelectedChild(Request $request, string $firstname = null): Response|Child
     {
         if(!empty($firstname)){
-            return $this->entityManager->getRepository(Child::class)->findOneBy(['firstname' => $firstname]);
+            $child = $this->entityManager->getRepository(Child::class)->findOneBy(['firstname' => $firstname]);
+            if($child){
+                return $this->redirectToRoute('app_home_child', array( 'id' => $child->getId()));
+            }
         }
 
         $childId = $request->cookies->get('child');
