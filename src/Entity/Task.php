@@ -22,6 +22,12 @@ class Task
     #[ORM\Column]
     private ?int $points = null;
 
+    #[ORM\Column]
+    private ?int $order = null;
+
+    #[ORM\Column]
+    private ?string $logo = null;
+
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = null;
 
@@ -79,6 +85,32 @@ class Task
 
         return $this;
     }
+
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(int $order): static
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): static
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+    
 
     /**
      * @return Collection<int, Historic>
