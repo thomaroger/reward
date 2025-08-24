@@ -23,7 +23,7 @@ class Task
     private ?int $points = null;
 
     #[ORM\Column]
-    private ?int $order = null;
+    private ?int $rank = null;
 
     #[ORM\Column]
     private ?string $logo = null;
@@ -87,14 +87,14 @@ class Task
     }
 
 
-    public function getOrder(): ?int
+    public function getRank(): ?int
     {
-        return $this->order;
+        return $this->rank;
     }
 
-    public function setOrder(int $order): static
+    public function setRank(int $rank): static
     {
-        $this->order = $order;
+        $this->rank = $rank;
 
         return $this;
     }

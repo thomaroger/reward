@@ -36,9 +36,9 @@ final class HomeController extends AbstractController
             $currentDate = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
             
             $children = $this->entityManager->getRepository(Child::class)->findAll();
-            $tasksBonus = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::BONUS], ['order' => 'ASC']);
-            $tasksPenalties = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::PENALTY], ['order' => 'ASC']);
-            $tasksConsumptions = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::CONSUMPTION], ['order' => 'ASC']);
+            $tasksBonus = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::BONUS], ['rank' => 'ASC']);
+            $tasksPenalties = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::PENALTY], ['rank' => 'ASC']);
+            $tasksConsumptions = $this->entityManager->getRepository(Task::class)->findBy(['type' => TypeEnum::CONSUMPTION], ['rank' => 'ASC']);
 
             $taskAlreadyDone = [];
             if ($selectedChild) {
