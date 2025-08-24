@@ -27,7 +27,7 @@ class TaskCrudController extends AbstractCrudController
             ChoiceField::new('frequency')->setChoices(FrequencyEnum::get()),
             ChoiceField::new('type')->setChoices(TypeEnum::get()),
             TextField::new('logo'),
-            IntegerField::new('rank'), 
+            IntegerField::new('position'), 
         ];
     }
 
