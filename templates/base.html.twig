@@ -32,7 +32,7 @@
             <span id="currentPointText">{{selectedchild.points}}</span>
             points</div>
           <span id="maxPointText">500</span></div>
-          <div class="progress">
+          <div class="progress {% if selectedchild.gender == 0 %}male{% else %}female{% endif %}">
             <div id="pointsBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
           </div>
         </div>

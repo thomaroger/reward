@@ -120,9 +120,13 @@ body {
   overflow: hidden;
 }
 
-.progress-bar {
+.male .progress-bar {
   background-color: #A7C7E7;
   transition: width 0.6s ease;
+}
+
+.female .progress-bar {
+  background-color: #F7C6D9;
 }
 
 .points-text {
