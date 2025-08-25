@@ -97,8 +97,14 @@ body {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.male .child-photo { 
   border: 4px solid #A7C7E7;
-  /* bleu pastel */
+}
+
+.female .child-photo {
+  border: 4px solid #F7C6D9;
 }
 
 .child-name {
