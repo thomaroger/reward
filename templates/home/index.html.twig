@@ -21,7 +21,7 @@
 </form>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-bonus">
-    <li class="list-group-item list-group-item-success"><b>Taches Bonus</b></li>
+    <li class="list-group-item list-group-item-success"><b><i class="fa-solid fa-circle-plus"></i> Taches Bonus</b></li>
     {% for task in tasksBonus %}
     {% set item_style = 'list-group-item-success' %}
     {% set btn_style = 'btn-success' %}
@@ -51,7 +51,9 @@
 </ul>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-penalty">
-    <li class="list-group-item list-group-item-danger"><b>Taches Malus</b></li>
+<li class="list-group-item list-group-item-danger">
+	<b><i class="fa-solid fa-circle-minus"></i> Taches Malus</b>
+</li>
     {% for task in tasksPenalties %}
     {% set disabled = (taskalreadydone[task.id] is defined and task.frequency == 0) %}
     <li class="list-group-item list-group-item-danger tasks">
@@ -75,7 +77,7 @@
 </ul>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-consumption">
-    <li class="list-group-item list-group-item-primary"><b>Taches de consommation</b></li>
+    <li class="list-group-item list-group-item-primary"><b><i class="fa-solid fa-gift"></i> Taches de consommation</b></li>
     {% for task in tasksConsumptions %}
       {% set canConsume = selectedchild.points >= (task.points*-1) %}
       {% if canConsume %}

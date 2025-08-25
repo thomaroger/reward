@@ -70,9 +70,6 @@
         <a href="#" data-bs-toggle="modal" data-bs-target="#childModal">
           <i class="fa-solid fa-users"></i><br/>Changer d'enfant
         </a>
-        <a href="{{ path('admin') }}">
-            <i class="fa-solid fa-gear"></i><br />Administration
-        </a>
       </div>
 <div class="modal fade" id="childModal" tabindex="-1" aria-labelledby="prenomModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -83,7 +80,6 @@
             </div>
             <div class="modal-body text-center">
               <select id="child-select" class="form-select" style="min-width: 220px;">
-                <option value="" disabled {% if selectedchild is null or selectedchild is empty %} selected {% endif %}>Choisir un enfant</option>
                 {% for child in children %}
                   <option value="{{ child.id }}" {% if (selectedchild is not null and selectedchild is not empty) and selectedchild.id == child.id %} selected {% endif %}>{{ child }}
                     ({{ child.points }} points)</option>
