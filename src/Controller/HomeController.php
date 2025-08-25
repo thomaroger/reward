@@ -220,7 +220,7 @@ final class HomeController extends AbstractController
     }
 
     // Méthodes privées pour améliorer la lisibilité et la réutilisabilité
-    private function getSelectedChild(Request $request, string $firstname = null): Response|Child
+    private function getSelectedChild(Request $request, string $firstname = null): Response|Child|null
     {
         if(!empty($firstname)){
             $child = $this->entityManager->getRepository(Child::class)->findOneBy(['firstname' => $firstname]);
