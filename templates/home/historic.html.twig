@@ -34,7 +34,6 @@
         <span class="badge rounded-pill text-bg-secondary">Total: {% if total > 0 %}+{{ total }}{% else %}{{ total }}{% endif %}</span>
       </li>
       {% for historic in histos %}
-        {# Déterminer le style selon la tâche ou l'ajustement manuel #}
         {% set item_style = 'list-group-item-light' %}
         {% if historic.task is not null %}
           {% set item_style = 'list-group-item-success' %}
@@ -42,7 +41,7 @@
             {% set item_style = 'list-group-item-danger' %}
           {% endif %}
           {% if historic.task.type == 2 %}
-            {% set item_style = 'list-group-item-warning' %}
+            {% set item_style = 'list-group-item-primary' %}
           {% endif %}
         {% else %}
           {% if historic.points is defined and historic.points is not null %}
@@ -64,13 +63,13 @@
                  {% set pts = historic.task ? historic.task.points : (historic.points ?? 0) %}
                  {% set badge = 'secondary' %}
                  {% if historic.task is not null %}
-                   {% set badge = historic.task.type == 0 ? 'success' : (historic.task.type == 1 ? 'danger' : 'warning') %}
+                   {% set badge = historic.task.type == 0 ? 'success' : (historic.task.type == 1 ? 'danger' : 'primary') %}
                  {% else %}
                    {% if pts > 0 %}{% set badge = 'success' %}{% elseif pts < 0 %}{% set badge = 'danger' %}{% else %}{% set badge = 'secondary' %}{% endif %}
                  {% endif %}
 
                  <span class="badge rounded-pill text-bg-{{ badge }}">{% if pts > 0 %}+{{ pts }}{% else %}{{ pts }}{% endif %}</span>
-                 &nbsp; {{ historic.createdAt|date("d/m/Y H:i:s", "Europe/Paris") }}
+                 &nbsp; {{ historic.createdAt|date("d/m/Y H:i:s") }}
                 </div>
               </div>
             </div>

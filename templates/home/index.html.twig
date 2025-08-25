@@ -16,13 +16,10 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% else %}
-<div class="clearfix">&nbsp;</div>
 <form class="d-flex" role="search">
       <input class="form-control me-2" id="task-filter" type="search" placeholder="Search" aria-label="Search"/>
 </form>
 <div class="clearfix">&nbsp;</div>
-
-
 <ul class="list-group" id="task-list-bonus">
     <li class="list-group-item list-group-item-success"><b>Taches Bonus</b></li>
     {% for task in tasksBonus %}
@@ -78,11 +75,11 @@
 </ul>
 <div class="clearfix">&nbsp;</div>
 <ul class="list-group" id="task-list-consumption">
-    <li class="list-group-item list-group-item-warning"><b>Taches de consommation</b></li>
+    <li class="list-group-item list-group-item-primary"><b>Taches de consommation</b></li>
     {% for task in tasksConsumptions %}
       {% set canConsume = selectedchild.points >= (task.points*-1) %}
       {% if canConsume %}
-      <li class="list-group-item list-group-item-warning tasks">
+  <li class="list-group-item list-group-item-primary tasks">
           <div class="container text-center">
             <div class="row">
               <div class="col text-start task-name">
@@ -94,7 +91,7 @@
                 <form action="{{ path('app_home_task') }}" method="POST" onsubmit="return confirm('Confirmer cette consommation ?');">
                   <input type="hidden" value="{{task.id}}" name="task" />
                   <input type="hidden" name="_token" value="{{ csrf_token('task_' ~ task.id) }}">
-                  <button type="submit" class="btn btn-warning" data-once="true" aria-label="Valider la tâche {{ task.name }}">Valider</button>
+                  <button type="submit" class="btn btn-primary" data-once="true" aria-label="Valider la tâche {{ task.name }}">Valider</button>
                 </form>
               </div>
             </div>
@@ -104,7 +101,6 @@
     {% endfor %}
 </ul>
 {% endif %}
-
 
 {% endblock %}
 

@@ -126,4 +126,9 @@ class Child
     {
         return $this->getFirstname();
     }
+
+    public function getEmailCrypted(): string
+    {
+        return hash('sha256', $this->email);
+    }
 }

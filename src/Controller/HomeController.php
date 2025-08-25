@@ -56,6 +56,7 @@ final class HomeController extends AbstractController
                 'types' => TypeEnum::get(),
                 'selectedchild' => $selectedChild,
                 'taskalreadydone' => $taskAlreadyDone,
+                'path' => 'app_home',
             ]);
         } catch (\Exception $e) {
             error_log('Erreur lors du chargement de la page d\'accueil: ' . $e->getMessage());
@@ -211,6 +212,7 @@ final class HomeController extends AbstractController
                 'historics' => $historics,
                 'selectedchild' => $selectedChild,
                 'pagination' => $pagination,
+                'path' => 'app_home_historic',
             ]);
         } catch (\Exception $e) {
             error_log('Erreur lors du chargement de l\'historique: ' . $e->getMessage());

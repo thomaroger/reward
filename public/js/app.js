@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const applyTheme = () => {
       const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('class', isDark ? 'dark' : 'light');
     };
     // Première application
     applyTheme();
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
       width: 'style',
       placeholder: 'Choisir un enfant',
       allowClear: false,
-      minimumResultsForSearch: 0, // Toujours afficher la barre de recherche
+      minimumResultsForSearch: -1,
       language: 'fr'
     });
 
@@ -140,7 +141,31 @@ document.addEventListener('DOMContentLoaded', function () {
       link.style.minHeight = '44px';
     });
   }
+
+  const pointsBar = document.getElementById("pointsBar");
+  const currentPointText = document.getElementById("currentPointText");
+  const maxPointText = document.getElementById("maxPointText");        // départ visuel
+  setTimeout(() => renderPoints(true, pointsBar, pointsText, currentPointText, maxPointText), 60); // animation de 0 à 100%
+
 });
+
+function renderPoints(animate = true, pointsBar, pointsText, currentPointText, maxPointText) {
+  totalPoints = clamp(currentPointText.textContent, 0, maxPointText.textContent);
+  const percentage = (totalPoints / maxPointText.textContent) * 100;
+  if (animate) {
+    pointsBar.style.width = percentage + "%";
+  } else {
+    const prev = pointsBar.style.transition;
+    pointsBar.style.transition = "none";
+    pointsBar.style.width = percentage + "%";
+    // trigger reflow
+    void pointsBar.offsetWidth;
+    pointsBar.style.transition = prev || "width 0.6s ease";
+  }
+}
+
+function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
+
 
 // Fonction utilitaire pour afficher des messages
 function showMessage(message, type = 'info') {
