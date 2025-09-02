@@ -25,7 +25,8 @@ final class HomeController extends AbstractController
     ) {}
 
     #[Route('/', name: 'app_home',)]
-    #[Route('/tasks/{firstname}', name: 'app_home_tasks', defaults: ['firstname' => null])]
+    #[Route('/tasks', name: 'app_home_tasks',)]
+    #[Route('/tasks/{firstname}', name: 'app_home_tasks_firstname', defaults: ['firstname' => null])]
     public function index(Request $request, string $firstname = null): Response
     {
         try {

@@ -56,7 +56,7 @@ Reward est une application de gestion de points destinée aux enfants. Elle perm
 
 4. Installez les dépendances PHP :
    ```bash
-   composer update
+   composer install
    ```
 
 5. Créez la base de données et lancez les migrations :
