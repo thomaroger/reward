@@ -154,7 +154,7 @@ final class HomeController extends AbstractController
                 $task->getPoints()
             ));
             
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home', ['_fragment' => 'task-' . $taskId]);
             
         } catch (\Exception $e) {
             error_log('Erreur lors de l\'exécution de la tâche: ' . $e->getMessage());
